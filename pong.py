@@ -54,42 +54,42 @@ ball.shape("square")
 ball.color("white")
 ball.penup()
 ball.goto(0, 0)
-ball.x_velocity = randint(-5, 5) / 100
-if ball.x_velocity < 0.02 and ball.x_velocity >= 0:
-    ball.x_velocity = 0.02
-elif ball.x_velocity < 0 and ball.x_velocity > -0.02:
-    ball.x_velocity = -0.02
-ball.y_velocity = randint(-5, 5) / 100
+ball.x_velocity = randint(-10, 10) / 100
+if ball.x_velocity < 0.05 and ball.x_velocity >= 0:
+    ball.x_velocity = 0.05
+elif ball.x_velocity < 0 and ball.x_velocity > -0.05:
+    ball.x_velocity = -0.05
+ball.y_velocity = randint(-10, 10) / 100
 if ball.y_velocity == 0:
     ball.y_velocity = 0.01
 
 def left_paddle_up():
     y = left_paddle.ycor()
-    if y < 250:
-        y += 20
+    if y < 190:
+        y += 60
         left_paddle.sety(y)
     else:
         left_paddle.sety(250)
 
 def left_paddle_down():
     y = left_paddle.ycor()
-    if y > -250:
-        y -= 20
+    if y > -190:
+        y -= 60
         left_paddle.sety(y)
     else:
         left_paddle.sety(-250)
 
 def right_paddle_up():
     y = right_paddle.ycor()
-    if y < 250:
-        y += 20
+    if y < 190:
+        y += 60
         right_paddle.sety(y)
     else:
         right_paddle.sety(250)
 def right_paddle_down():
     y = right_paddle.ycor()
-    if y > -250:
-        y -= 20
+    if y > -190:
+        y -= 60
         right_paddle.sety(y)
     else:
         right_paddle.sety(-250)
@@ -100,7 +100,7 @@ play_window.onkeypress(left_paddle_down, "s")
 play_window.onkeypress(right_paddle_up, "Up")
 play_window.onkeypress(right_paddle_down, "Down")
 
-while left_score < 11 and right_score < 11:
+while left_score < 6 and right_score < 6:
     play_window.update()
 
     ball.setx(ball.xcor() + ball.x_velocity)
@@ -115,25 +115,31 @@ while left_score < 11 and right_score < 11:
     
     if ball.xcor() > 390:
         ball.goto(0, 0)
-        ball.x_velocity = -1 * randint(2, 5) / 100
+        ball.x_velocity = -1 * randint(5, 10) / 100
         left_score += 1
         score.clear()
         score.write("{}      {}".format(left_score, right_score), align = "center", font = ("Courier", 50, "normal"))
 
     elif ball.xcor() < -390:
         ball.goto(0, 0)
-        ball.x_velocity = randint(2, 5) / 100
+        ball.x_velocity = randint(5, 10) / 100
         right_score += 1
         score.clear()
         score.write("{}      {}".format(left_score, right_score), align = "center", font = ("Courier", 50, "normal"))
         
     if ball.xcor() > 360 and ball.xcor() < 370 and ball.ycor() < right_paddle.ycor() + 50 and ball.ycor() > right_paddle.ycor() - 50:
         ball.setx(360)
-        ball.x_velocity *= -1.25
+        if ball.x_velocity < 1:
+            ball.x_velocity *= -1.5
+        else:
+            ball.x_velocity *= -1
     elif ball.xcor() < -360 and ball.xcor() > -370 and ball.ycor() < left_paddle.ycor() + 50 and ball.ycor() > left_paddle.ycor() - 50:
         ball.setx(-360)
-        ball.x_velocity *= -1.25
-    if left_score == 11 or right_score == 11:
+        if ball.x_velocity < 1:
+            ball.x_velocity *= -1.5
+        else:
+            ball.x_velocity *= -1
+    if left_score == 6 or right_score == 6:
         score.clear()
         score.write("GAME OVER", align = "center", font = ("Courier", 50, "normal"))
         time.sleep(2)
